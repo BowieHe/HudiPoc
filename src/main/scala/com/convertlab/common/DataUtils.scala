@@ -21,7 +21,6 @@ object DataUtils {
     val name = uuid.substring(0, 6)
     val date = calFieldDate()
     val method = methodList(Random.nextInt(methodList.length))
-    // val eventType = eventTypeList(Random.nextInt(eventTypeList.length))
     val attrReg = raw"attr(\d+)".r
     val numReg = raw"num(\d+)".r
     val strReg = raw"str(\d+)".r
@@ -31,7 +30,7 @@ object DataUtils {
       case "_external_id" =>
         data += i.toInt
       case "_profile_id" =>
-        data += (if(i > 100000000) i / 3 else i).toString
+        data += (if(i > 100000000) (i / 3) else i).toString
       case "_last_updated_batch_id" | "_img" | "_last_updater_id" =>
         data += uuid
       case "_date_created" | "_last_updated" | "_birthday" | "_order_date" =>
@@ -39,7 +38,7 @@ object DataUtils {
       case "_import_method" | "_create_from" =>
         data += method
       case "_event_type" =>
-        data += eventTypeList(Random.nextInt(eventTypeList.length))
+        data += eventTypeList(Random.nextInt(eventTypeList.length)).toString
       case "_gender" =>
         data += Random.nextInt(1).toString
       case "_name" | "_create_from"| "_creator_id" =>
@@ -47,7 +46,7 @@ object DataUtils {
       case "_email" =>
         data += s"$name@email.com"
       case "partition" =>
-        data += new SimpleDateFormat("yyyy-MM").format(new Date(date))
+        data += new SimpleDateFormat("yyyy-MM").format(new Date(date)).toString
       case attrReg(_*) =>
         data += s"attr$i"
       case numReg(_*) =>
@@ -58,7 +57,7 @@ object DataUtils {
       case "_trait_id" =>
         data += traitId
       case "_value_num" =>
-        data += Random.nextInt(10).toString
+        data += Random.nextInt(10).toInt
       case "_value_text" =>
         data += traitStrValue(Random.nextInt(traitStrValue.length))
       case "_value_date" =>

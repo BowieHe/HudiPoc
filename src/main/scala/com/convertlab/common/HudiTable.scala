@@ -36,7 +36,7 @@ object HudiTable {
   def write(dataset: Dataset[Row], writeMode: String, lookRequired: Boolean = false): Unit = {
 
     var options = mutable.Map(
-      "hoodie.datasource.write.table.type" -> "MERGE_ON_READ",
+      "hoodie.datasource.write.table.type" -> tableType,
       "hoodie.table.name" -> tableName,
       "hoodie.datasource.write.operation" -> writeMode,
       "hoodie.datasource.write.recordkey.field" -> primaryKeys,

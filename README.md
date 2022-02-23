@@ -15,3 +15,8 @@ spark-submit --master yarn --num-executors 4 --executor-memory 16G --conf "spark
 
 3. 数据写入的地址在
 `s3://dev-hudipoc-emr-logs/tmp/hudi/poc/$tableName` 
+
+4. 代码上传环境
+`scp scp /Users/bowie/Desktop/HudiPoc/build/libs/HudiPoc-1.0-SNAPSHOT.jar ssh ec2-user@ec2-161-189-13-213.cn-northwest-1.compute.amazonaws.com.cn:/tmp`
+
+`scp /tmp/HudiPoc-1.0-SNAPSHOT.jar hadoop@ip-172-20-105-156.cn-northwest-1.compute.internal:/tmp`

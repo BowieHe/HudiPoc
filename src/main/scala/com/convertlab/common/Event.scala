@@ -23,7 +23,7 @@ object Event {
       StructField("_last_updated", TimestampType),
       StructField("_birthday", TimestampType),
       StructField("_event_type", StringType),
-      StructField("_order_date", StringType),
+      StructField("_order_date", TimestampType),
       StructField("partition", StringType),
     ))
     for (i <- 1 to 20) {

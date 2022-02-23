@@ -8,7 +8,7 @@ object Tag {
 
   def getTagSchema: StructType = {
     val schema = StructType(Seq(
-      StructField("_profile_id", IntegerType),
+      StructField("_profile_id", StringType),
       StructField("_trait_id", StringType),
       StructField("_value_text", StringType),
       StructField("_value_num", IntegerType),
