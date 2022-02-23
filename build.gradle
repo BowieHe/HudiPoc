@@ -1,0 +1,70 @@
+plugins {
+    id 'java'
+    id 'scala'
+}
+
+group 'com.convertlab'
+def patchVersion = new Date().getTime() / 1000 as long
+def ver = System.getProperty("component_version") ?: "master.${patchVersion}"
+//version ver
+version '1.0-SNAPSHOT'
+
+def cdh_version = System.getProperty("cdh_version") ?: "6.3.1"
+def spark_version = System.getProperty("spark_version") ?: "3.1.2"
+
+repositories {
+    maven { url "https://s3.cn-northwest-1.amazonaws.com.cn/cn-northwest-1-emr-artifacts/emr-6.4.0/repos/maven/" }
+    maven { url "https://repository.cloudera.com/artifactory/libs-release-local/" }
+    mavenCentral()
+}
+
+dependencies {
+    // 下面两个有包版本冲突
+//     compileOnly group: 'org.apache.spark', name: 'spark-core_2.12', version: "${spark_version}"
+//     compileOnly group: 'org.apache.spark', name: 'spark-sql_2.12', version: "${spark_version}"
+    compileOnly group: 'org.apache.spark', name: 'spark-core_2.12', version: "3.1.2"
+    compileOnly group: 'org.apache.spark', name: 'spark-sql_2.12', version: "3.1.2"
+
+    compile "org.scala-lang:scala-library:2.12.10"
+
+    compileOnly group: 'org.apache.hudi', name: 'hudi-spark3-bundle_2.12', version: '0.8.0'
+    compileOnly group: 'org.apache.spark', name: 'spark-avro_2.12', version: '3.0.1'
+    compileOnly group: 'org.apache.spark', name: 'spark-streaming-kafka-0-10_2.12', version: '3.2.0'
+    compileOnly group: 'org.apache.spark', name: 'spark-sql-kafka-0-10_2.12', version: "3.1.2"
+    compileOnly group: 'org.apache.kafka', name: 'kafka-clients', version: '2.6.2'
+    compileOnly group: 'org.apache.spark', name: 'spark-token-provider-kafka-0-10_2.12', version: '3.1.2'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+def appMainClass = 'SparkHudiFiller'
+
+jar {
+    configurations.runtime.each { println it.path }
+    println "========="
+    configurations.compile.each { println it.path }
+    println "========="
+
+    zip64=true
+
+    from {
+        //configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtime.collect { zipTree(it) }
+    }
+    manifest {
+        //attributes 'Main-Class': appMainClass
+    }
+}
+
+task clearJar(type: Delete) {
+    delete 'build/libs/lib'
+}
+
+task copyJar(type: Copy) {
+    from configurations.runtime
+    into('build/libs/lib')
+}
+
+task release(type: Copy, dependsOn: [build, clearJar, copyJar])

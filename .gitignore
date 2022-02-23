@@ -1,0 +1,14 @@
+.idea
+.gradle
+*.hprof
+*.iml
+*/build/*
+build/
+*/out/
+.DS_Store
+.bloop/
+.metals/
+.vscode/
+.bsp/
+project/
+target/
