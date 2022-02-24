@@ -18,14 +18,6 @@ object CustomerDataUpdate {
     val sc = spark.sparkContext
     sc.setLogLevel("ERROR")
 
-    HudiTable.setProperties(Map(
-      "tableName" -> "customer",
-      "primaryKeys" -> "_id",
-      "partitionKeys" -> "",
-      "preCombineKey" -> "_date_created",
-      "tableType" -> "MERGE_ON_READ"
-    ))
-
     // select 50,000,000 customer data from customer
     spark.sql("use default")
     spark.sql("show tables")
@@ -38,10 +30,6 @@ object CustomerDataUpdate {
       .drop(col("_hoodie_record_key")).drop(col("_hoodie_partition_path"))
       .drop(col("_hoodie_file_name"))
 
-//    println(originDs.first())
-//    println(originDs.count())
-//    originDs.write.mode(SaveMode.Overwrite).parquet(Customer.tempFilePath)
-//
 //    println(LocalDateTime.now() + s"===== finish write parquet file")
 //    val insertDs = spark.read.parquet(Customer.tempFilePath)
     println(LocalDateTime.now() + s"===== finish read parquet file")

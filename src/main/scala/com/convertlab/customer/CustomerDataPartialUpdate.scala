@@ -18,14 +18,6 @@ object CustomerDataPartialUpdate {
     val sc = spark.sparkContext
     sc.setLogLevel("ERROR")
 
-    HudiTable.setProperties(Map(
-      "tableName" -> "customer",
-      "primaryKeys" -> "_id",
-      "partitionKeys" -> "",
-      "preCombineKey" -> "_date_created",
-      "tableType" -> "MERGE_ON_READ",
-    ))
-
     // select 50,000,000 customer data from customer
     spark.sql("use default")
     spark.sql("show tables")

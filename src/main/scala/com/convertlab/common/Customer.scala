@@ -7,6 +7,14 @@ object Customer {
   val tempFilePath = "s3://dev-hudipoc-emr-logs/tmp/hudi/poc/temp/temp_customer.parquet"
   val tablePath = "s3://dev-hudipoc-emr-logs/tmp/hudi/poc/customer"
 
+  HudiTable.setProperties(Map(
+    "tableName" -> "customer",
+    "primaryKeys" -> "_id",
+    "partitionKeys" -> "",
+    "preCombineKey" -> "_date_created",
+    "tableType" -> "MERGE_ON_READ",
+  ))
+
   def getCustomerSchema: StructType = {
     var schema = StructType(Seq(
       StructField("_id", StringType),

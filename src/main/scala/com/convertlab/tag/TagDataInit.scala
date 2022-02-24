@@ -17,26 +17,21 @@ object TagDataInit {
     val sc = spark.sparkContext
     sc.setLogLevel("ERROR")
 
-    HudiTable.setProperties(Map(
-      "tableName" -> "tag",
-      "primaryKeys" -> "_profile_id",
-      "partitionKeys" -> "_trait_id",
-      "preCombineKey" -> "_date_created",
-      "tableType" -> "MERGE_ON_READ",
-    ))
+    val traitId = UUID.randomUUID().toString.substring(0, 4)
 
-    println(LocalDateTime.now() + " === start creating data for customer table: customer")
+    println(LocalDateTime.now() + s" === start creating data for customer table: trait, and traitId $traitId")
     // 写入客户数据。 1亿， 没有分区，没有主键
     val tagSchema = Tag.getTagSchema
-    val tagRdd = sc.parallelize(0 until 100000000, 100).map(i => DataUtils.fillData(tagSchema, i, traitId = UUID.randomUUID().toString.substring(0, 4)))
+
+    val tagRdd = sc.parallelize(0 until 100000000, 100).map(i => DataUtils.fillData(tagSchema, i, traitId = traitId))
 
     val tagDataFrame = spark.createDataFrame(tagRdd, tagSchema)
 
     println(tagDataFrame.schema.fieldNames.mkString(","))
     tagDataFrame.createOrReplaceTempView("temp_tag")
 
-    println(LocalDateTime.now() + s"===== finish read parquet file")
-    HudiTable.write(tagDataFrame, "bulk_insert")
+
+    HudiTable.write(tagDataFrame, "bulk_inserprintln(LocalDateTime.now() + s\"===== finish read parquet file\")t")
 
     spark.stop()
   }

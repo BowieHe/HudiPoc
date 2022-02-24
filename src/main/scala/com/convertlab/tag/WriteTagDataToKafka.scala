@@ -17,15 +17,16 @@ object WriteTagDataToKafka {
     val sc = spark.sparkContext
     sc.setLogLevel("ERROR")
 
-    val originDs: DataFrame = spark.sql("select * from tag_ro")
+    val partition = "add5"
+    val originDs: DataFrame = spark.sql(s"select * from tag_mor_ro where `_trait_id` = '$partition'")
     originDs.createOrReplaceTempView("tag_temp_view")
     val changeValue = Random.nextInt(100)
     println(s"change value to $changeValue")
-    for (i <- 1 to 2) {
+    for (i <- 1 to 10) {
       println(LocalDateTime.now() + s"===== start write data into kafka, index $i")
       val beginIndex = i * 100000
       val endIndex = (i + 1) * 100000
-      val updateDs = spark.sql(s"select * from tag_temp_view where _id > $beginIndex and _id < $endIndex")
+      val updateDs = spark.sql(s"select * from tag_temp_view where _profile_id > $beginIndex and _profile_id < $endIndex")
         .withColumn("_value_num", lit(changeValue))
         .withColumn("_date_created", col("_date_created") + expr("INTERVAL 2 HOURS"))
         .drop(col("_hoodie_commit_seqno")).drop(col("_hoodie_commit_time"))

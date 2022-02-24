@@ -6,6 +6,14 @@ object Event {
 
   val tablePath = "s3://dev-hudipoc-emr-logs/tmp/hudi/poc/event"
 
+  HudiTable.setProperties(Map(
+    "tableName" -> "event",
+    "primaryKeys" -> "_external_id,_event_type",
+    "partitionKeys" -> "partition",
+    "preCombineKey" -> "_date_created",
+    "tableType" -> "MERGE_ON_READ",
+  ))
+
   def getEventSchema: StructType = {
     var schema = StructType(Seq(
       StructField("_external_id", IntegerType),

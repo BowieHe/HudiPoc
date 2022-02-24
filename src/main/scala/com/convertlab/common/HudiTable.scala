@@ -97,6 +97,7 @@ object HudiTable {
       .option("kafka.bootstrap.servers", "b-1.dev-hudipoc-ms.vto656.c4.kafka.cn-northwest-1.amazonaws.com.cn:9092,b-2.dev-hudipoc-ms.vto656.c4.kafka.cn-northwest-1.amazonaws.com.cn:9092")
       .option("subscribe", kafkaTopic)
       .option("maxOffsetsPerTrigger", 100000)
+      .option("failOnDataLoss", "false")
       .load()
 
     val kafkaData = dataStreamReader.withColumn("json", col("value").cast(StringType))
