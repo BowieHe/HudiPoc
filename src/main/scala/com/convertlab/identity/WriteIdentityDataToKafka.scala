@@ -19,7 +19,7 @@ object WriteIdentityDataToKafka {
 
     val originDs: DataFrame = spark.sql("select * from identity_ro")
     originDs.createOrReplaceTempView("identity_temp_view")
-    for (i <- 1 to 10) {
+    for (i <- 1 to 4) {
       val uuid = UUID.randomUUID().toString.substring(0, 4)
       val identitySchema = Identity.getIdentitySchema
       val identityRdd = sc.parallelize(0 until 300000, 100).map(i => DataUtils.fillData(identitySchema, i, identityType = uuid))

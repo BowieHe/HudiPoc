@@ -102,7 +102,7 @@ object HudiTable {
 
     val kafkaData = dataStreamReader.withColumn("json", col("value").cast(StringType))
       .select(from_json(col("json"), schema) as "data")
-      .select("data.*").where("_date_created is not null")
+      .select("data.*")
 
     val query = kafkaData
       .writeStream
@@ -111,6 +111,7 @@ object HudiTable {
 
         batchDF.persist()
 
+        println(batchDF.count())
         println(LocalDateTime.now() + " === start writing table")
         HudiTable.write(batchDF, "upsert", lookRequired = true)
         batchDF.unpersist()

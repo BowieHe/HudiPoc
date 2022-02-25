@@ -22,7 +22,7 @@ object EventConcurrentUpdate {
     // 写入客户数据。 1亿， 没有分区，没有主键
     val eventSchema = Event.getEventSchema
     println(eventSchema)
-    val eventRdd = sc.parallelize(0 until 10000000, 100).map(i => DataUtils.fillData(eventSchema, i, eventType = eventType))
+    val eventRdd = sc.parallelize(0 until 30000000, 100).map(i => DataUtils.fillData(eventSchema, i, eventType = eventType))
 
     val eventDataFrame = spark.createDataFrame(eventRdd, eventSchema)
     println(eventDataFrame.schema)
