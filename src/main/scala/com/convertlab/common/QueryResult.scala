@@ -10,7 +10,7 @@ object QueryResult {
     "partitionKeys" -> "task_id",
     "preCombineKey" -> "_date_created",
     // "tableType" -> "COPY_ON_WRITE",
-    "tableType" -> "COPY_ON_WRITE",
+    "tableType" -> "COPY_ON_WRITE"
   ))
 
   def getQuerySchema: StructType = {

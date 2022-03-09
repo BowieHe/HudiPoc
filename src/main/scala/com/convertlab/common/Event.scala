@@ -11,7 +11,7 @@ object Event {
     "primaryKeys" -> "_external_id,_event_type",
     "partitionKeys" -> "partition",
     "preCombineKey" -> "_date_created",
-    "tableType" -> "MERGE_ON_READ",
+    "tableType" -> "MERGE_ON_READ"
   ))
 
   def getEventSchema: StructType = {
@@ -32,7 +32,7 @@ object Event {
       StructField("_birthday", TimestampType),
       StructField("_event_type", StringType),
       StructField("_order_date", TimestampType),
-      StructField("partition", StringType),
+      StructField("partition", StringType)
     ))
     for (i <- 1 to 20) {
       schema = schema.add(StructField(s"attr$i", StringType))

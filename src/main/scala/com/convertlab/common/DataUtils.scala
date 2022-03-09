@@ -71,6 +71,6 @@ object DataUtils {
   }
 
   def calFieldDate(): Long = {
-    1609459200000L + Random.nextInt(63072000) * 1000L // for diff month， from2021-01-01 ~ 2023-01-01
+    1704038400000L + Random.nextInt(63072000) * 1000L // for diff month， from2021-01-01 ~ 2023-01-01
   }
 }

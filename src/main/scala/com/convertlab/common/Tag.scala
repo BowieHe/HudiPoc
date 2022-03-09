@@ -14,7 +14,7 @@ object Tag {
     "partitionKeys" -> "_trait_id",
     "preCombineKey" -> "_date_created",
     // "tableType" -> "COPY_ON_WRITE",
-    "tableType" -> "MERGE_ON_READ",
+    "tableType" -> "MERGE_ON_READ"
   ))
 
   def getTagSchema: StructType = {
@@ -25,7 +25,7 @@ object Tag {
       StructField("_value_num", IntegerType),
       StructField("_value_date", TimestampType),
       StructField("_date_created", TimestampType),
-      StructField("_last_updated", TimestampType),
+      StructField("_last_updated", TimestampType)
     ))
     schema
   }

@@ -12,7 +12,7 @@ object Customer {
     "primaryKeys" -> "_id",
     "partitionKeys" -> "",
     "preCombineKey" -> "_date_created",
-    "tableType" -> "MERGE_ON_READ",
+    "tableType" -> "MERGE_ON_READ"
   ))
 
   def getCustomerSchema: StructType = {

@@ -4,19 +4,19 @@ import java.time.LocalDateTime
 import com.convertlab.common.{Customer, DataUtils, HudiTable}
 import org.apache.spark.sql.SparkSession
 
-object CustomerDataUpdate {
+object CustomerUpdateMicroBatch {
 
   def main(args: Array[String]): Unit = {
     println("==== start processing")
     val spark = SparkSession
       .builder.enableHiveSupport()
-      .appName("CustomerDataUpdate")
+      .appName("CustomerUpdateMicroBatch")
       .getOrCreate()
     val sc = spark.sparkContext
     sc.setLogLevel("ERROR")
 
     val customerSchema = Customer.getCustomerSchema
-    val customerRdd = sc.parallelize(0 until 30000000, 100).map(i => DataUtils.fillData(customerSchema, i))
+    val customerRdd = sc.parallelize(0 until 3000, 100).map(i => DataUtils.fillData(customerSchema, (i * 30000)))
 
     val customerDataFrame = spark.createDataFrame(customerRdd, customerSchema)
     println(customerDataFrame.schema)

@@ -9,7 +9,7 @@ object Identity {
     "primaryKeys" -> "_id,_type",
     "partitionKeys" -> "",
     "preCombineKey" -> "_date_created",
-    "tableType" -> "MERGE_ON_READ",
+    "tableType" -> "MERGE_ON_READ"
   ))
 
   def getIdentitySchema: StructType = {

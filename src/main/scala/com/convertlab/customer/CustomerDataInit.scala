@@ -25,7 +25,6 @@ object CustomerDataInit {
 
     println(customerDataFrame.schema.fieldNames.mkString(","))
 
-
     println(LocalDateTime.now() + s"===== finish read parquet file")
     HudiTable.write(customerDataFrame, "bulk_insert")
 
