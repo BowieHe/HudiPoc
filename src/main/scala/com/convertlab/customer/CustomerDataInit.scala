@@ -17,7 +17,7 @@ object CustomerDataInit {
     sc.setLogLevel("ERROR")
 
     println(LocalDateTime.now() + " === start creating data for customer table: customer")
-    // 写入客户数据。 1亿， 没有分区，没有主键
+    // 写入客户数据。 1亿， 没有分区
     val customerSchema = Customer.getCustomerSchema
     val customerRdd = sc.parallelize(0 until 100000000, 100).map(i => DataUtils.fillData(customerSchema, i))
 
